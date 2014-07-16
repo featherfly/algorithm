@@ -1,0 +1,104 @@
+apply plugin: "java"
+apply plugin: "ivy-publish"
+
+group = "cn.featherfly"
+version = "1.0.1"
+
+tasks.withType(Compile) {
+    options.encoding = "UTF-8"
+}
+tasks.withType(Javadoc) {
+    options.encoding = "UTF-8"
+}
+sourceSets {
+    main {
+        java {
+            srcDirs = ["src"]
+        }
+    }
+}
+
+compileDependencies =[
+				"org.slf4j:slf4j-api:1.7.7"
+				,"org.bouncycastle:bcprov-jdk16:1.46"
+					] 
+publishRepo = "d:/store/ivy2/gradle_publish"
+repositories {
+	mavenCentral()
+	ivy {
+        url publishRepo
+    }   
+}
+
+task sourceJar(type: Jar) {
+	classifier "source"
+    from sourceSets.main.allJava
+}
+
+task javadocJar(type: Jar, dependsOn:javadoc) { 
+     classifier = "javadoc"
+     from javadoc.destinationDir 
+}
+
+publishing {
+    publications {
+    	ivy(IvyPublication) {
+            artifact jar{
+        		from components.java
+        	}
+            artifact (sourceJar) {
+             	type "source"
+            }
+			artifact (javadocJar) {
+				type "javadoc"
+			}
+			descriptor.withXml {
+                for (def depend : compileDependencies)  {
+                	def deps = depend.split(':')
+                	asNode().dependencies[0].appendNode("dependency",
+                					['org' : deps[0] , 'name' : deps[1], 'rev' : deps[2]])
+				}                
+            }
+            
+        }
+    }    
+    repositories {
+        ivy {
+            url publishRepo
+        }        
+    }
+}
+/*
+publishing {
+    publications {    	
+        mavenJava(MavenPublication) {
+        	artifact jar{
+        		from components.java
+        	}
+            artifact sourceJar
+			artifact javadocJar    
+        }
+    }    
+    repositories {
+        maven {
+            url "d:/store/maven/local_repo"
+        }
+    }
+}
+*/  
+dependencies {
+	for (def depend : compileDependencies)  {
+		compile (depend)
+	}
+	/* 
+    compile (    
+    	"org.slf4j:slf4j-api:1.7.7"
+		,"org.bouncycastle:bcprov-jdk16:1.46"
+    )
+    */
+}
+
+jar {
+    manifest.attributes buildBy: "zhong ji"
+    manifest.attributes provider: "gradle"
+}
