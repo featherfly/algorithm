@@ -1,8 +1,13 @@
 apply plugin: "java"
 apply plugin: "ivy-publish"
+apply plugin: 'maven'  
+apply plugin: 'signing'
+apply plugin: 'eclipse'
 
 group = "cn.featherfly"
 version = "1.0.1"
+sourceCompatibility = 1.7  
+targetCompatibility = 1.7  
 
 tasks.withType(Compile) {
     options.encoding = "UTF-8"
@@ -16,12 +21,18 @@ sourceSets {
             srcDirs = ["src"]
         }
     }
+    test {
+    	java {
+            srcDirs = ["src-test"]
+        }
+    } 
 }
 
 compileDependencies =[
 				"org.slf4j:slf4j-api:1.7.7"
 				,"org.bouncycastle:bcprov-jdk16:1.46"
 					] 
+					
 publishRepo = "d:/store/ivy2/gradle_publish"
 repositories {
 	mavenCentral()
@@ -30,8 +41,8 @@ repositories {
     }   
 }
 
-task sourceJar(type: Jar) {
-	classifier "source"
+task sourcesJar(type: Jar) {
+	classifier "sources"
     from sourceSets.main.allJava
 }
 
@@ -40,13 +51,68 @@ task javadocJar(type: Jar, dependsOn:javadoc) {
      from javadoc.destinationDir 
 }
 
+artifacts {  
+    archives jar  
+    archives javadocJar  
+    archives sourcesJar  
+}  
+  
+//为所有的jar包做数字签名  
+signing {  
+    sign configurations.archives  
+}  
+
+uploadArchives {  
+    repositories {  
+        mavenDeployer {  
+            //为Pom文件做数字签名  
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) } 
+  
+            //指定项目部署到的中央库地址，UserName和Password就是Part 1中注册的账号。
+            //https://oss.sonatype.org/content/repositories/snapshots
+			//https://oss.sonatype.org/service/local/staging/deploy/maven2  
+            repository(url:"https://oss.sonatype.org/service/local/staging/deploy/maven2") {  
+                authentication(userName: 'yufei', password: 'yufeimvn101')  
+            }  
+              
+            pom.project {  
+                name project.name  
+                packaging 'jar'
+                description 'algorithm tool'  
+                url 'https://github.com/featherfly/algorithm.git'  
+  
+                scm {  
+                    url 'scm:git@github.com:featherfly/algorithm.git'  
+                    connection 'scm:git@github.com:featherfly/algorithm.git'  
+                    developerConnection 'git@github.com:featherfly/algorithm.git'  
+                }  
+  
+                licenses {  
+                    license {  
+                        name 'The Apache Software License, Version 2.0'  
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'  
+                        distribution 'repo'  
+                    }  
+                }  
+  
+                developers {  
+                    developer {  
+                        id 'featherfly'  
+                        name 'Yufei'
+                    }  
+                }  
+            }  
+        }  
+    }  
+}  
+
 publishing {
     publications {
     	ivy(IvyPublication) {
             artifact jar{
         		from components.java
         	}
-            artifact (sourceJar) {
+            artifact (sourcesJar) {
              	type "source"
             }
 			artifact (javadocJar) {
@@ -96,6 +162,9 @@ dependencies {
 		,"org.bouncycastle:bcprov-jdk16:1.46"
     )
     */
+    testCompile (
+    	'org.testng:testng:6.8.8'
+    )
 }
 
 jar {

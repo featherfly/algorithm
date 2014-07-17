@@ -26,11 +26,18 @@ public abstract class Algorithm {
 	 */
 	public final static String ENCODING = "UTF-8";
 
-	public static String toHexString(byte b[]) {
+	/**
+	 * <p>
+	 * 转换为16进制的字符串
+	 * </p>
+	 * @param bytes 字节数组
+	 * @return 16进制的字符串
+	 */
+	public static String toHexString(byte bytes[]) {
         StringBuilder sb = new StringBuilder();
-        for (int j = 0; j < b.length; j++) {
-            sb.append(Integer.toHexString((int)((b[j]>>4)&0x0f)));
-            sb.append(Integer.toHexString((int)(b[j]&0x0f)));
+        for (int j = 0; j < bytes.length; j++) {
+            sb.append(Integer.toHexString((int)((bytes[j]>>4)&0x0f)));
+            sb.append(Integer.toHexString((int)(bytes[j]&0x0f)));
         }
         return sb.toString();
     }

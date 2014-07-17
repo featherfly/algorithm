@@ -12,12 +12,14 @@ import java.security.spec.X509EncodedKeySpec;
 
 import javax.crypto.Cipher;
 
+import org.bouncycastle.crypto.params.KeyParameter;
+
 /**
  * RSA安全编码组件
  *
  * @author 钟冀
  */
-public abstract class RSA {
+public abstract class RSA extends Algorithm{
 
 	/**
 	 * 非对称加密密钥算法
@@ -58,6 +60,48 @@ public abstract class RSA {
 		cipher.init(Cipher.DECRYPT_MODE, privateKey);
 		return cipher.doFinal(data);
 	}
+	/**
+	 * 私钥解密
+	 *
+	 * @param data
+	 *            待解密数据
+	 * @param key
+	 *            私钥
+	 * @return byte[] 解密数据
+	 * @throws Exception
+	 */
+	public static byte[] decryptByPrivateKey(String data, byte[] key)
+			throws Exception {
+		return decryptByPrivateKey(Base64.decode(data), key);
+	}
+	/**
+	 * 私钥解密
+	 *
+	 * @param data
+	 *            待解密数据
+	 * @param key
+	 *            私钥
+	 * @return String 解密数据
+	 * @throws Exception
+	 */
+	public static String decryptByPrivateKeyToString(byte[] data, byte[] key)
+			throws Exception {
+		return new String(decryptByPrivateKey(data, key), ENCODING);
+	}
+	/**
+	 * 私钥解密
+	 *
+	 * @param data
+	 *            待解密数据
+	 * @param key
+	 *            私钥
+	 * @return String 解密数据
+	 * @throws Exception
+	 */
+	public static String decryptByPrivateKeyToString(String data, byte[] key)
+			throws Exception {
+		return decryptByPrivateKeyToString(Base64.decode(data), key);
+	}
 
 	/**
 	 * 公钥解密
@@ -83,6 +127,50 @@ public abstract class RSA {
 	}
 
 	/**
+	 * 公钥解密
+	 *
+	 * @param data
+	 *            待解密数据
+	 * @param key
+	 *            公钥
+	 * @return byte[] 解密数据
+	 * @throws Exception
+	 */
+	public static byte[] decryptByPublicKey(String data, byte[] key)
+			throws Exception {
+		return decryptByPublicKey(Base64.decode(data), key);
+	}
+	
+	/**
+	 * 公钥解密
+	 *
+	 * @param data
+	 *            待解密数据
+	 * @param key
+	 *            公钥
+	 * @return String 解密数据
+	 * @throws Exception
+	 */
+	public static String decryptByPublicKeyToString(byte[] data, byte[] key)
+			throws Exception {
+		return new String(decryptByPublicKey(data, key), ENCODING);
+	}
+	/**
+	 * 公钥解密
+	 *
+	 * @param data
+	 *            待解密数据
+	 * @param key
+	 *            公钥
+	 * @return String 解密数据
+	 * @throws Exception
+	 */
+	public static String decryptByPublicKeyToString(String data, byte[] key)
+			throws Exception {
+		return decryptByPublicKeyToString(Base64.decode(data), key);
+	}
+		
+	/**
 	 * 公钥加密
 	 *
 	 * @param data
@@ -102,6 +190,48 @@ public abstract class RSA {
 		Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
 		cipher.init(Cipher.ENCRYPT_MODE, publicKey);
 		return cipher.doFinal(data);
+	}
+	
+	/**
+	 * 公钥加密
+	 *
+	 * @param data
+	 *            待加密数据
+	 * @param key
+	 *            公钥
+	 * @return byte[] 加密数据
+	 * @throws Exception
+	 */
+	public static byte[] encryptByPublicKey(String data, byte[] key)
+			throws Exception {
+		return encryptByPublicKey(data.getBytes(ENCODING), key);
+	}
+	
+	/**
+	 * 公钥加密
+	 *
+	 * @param data
+	 *            待加密数据
+	 * @param key
+	 *            公钥
+	 * @return String 加密数据
+	 * @throws Exception
+	 */
+	public static String encryptByPublicKeyToString(byte[] data, byte[] key) throws Exception {
+		return Base64.encodeToString(encryptByPublicKey(data, key));
+	}
+	/**
+	 * 公钥加密
+	 *
+	 * @param data
+	 *            待加密数据
+	 * @param key
+	 *            公钥
+	 * @return String 加密数据
+	 * @throws Exception
+	 */
+	public static String encryptByPublicKeyToString(String data, byte[] key) throws Exception {
+		return encryptByPublicKeyToString(data.getBytes(ENCODING), key);
 	}
 
 	/**
@@ -126,7 +256,49 @@ public abstract class RSA {
 		cipher.init(Cipher.ENCRYPT_MODE, privateKey);
 		return cipher.doFinal(data);
 	}
-
+	
+	/**
+	 * 私钥加密
+	 *
+	 * @param data
+	 *            待加密数据
+	 * @param key
+	 *            私钥
+	 * @return byte[] 加密数据
+	 * @throws Exception
+	 */
+	public static byte[] encryptByPrivateKey(String data, byte[] key)
+			throws Exception {
+		return encryptByPrivateKey(data.getBytes(ENCODING), key);
+	}
+	
+	/**
+	 * 私钥加密
+	 *
+	 * @param data
+	 *            待加密数据
+	 * @param key
+	 *            私钥
+	 * @return String 加密数据
+	 * @throws Exception
+	 */
+	public static String encryptByPrivateKeyToString(byte[] data, byte[] key) throws Exception {
+		return Base64.encodeToString(encryptByPrivateKey(data, key));
+	}
+	/**
+	 * 私钥加密
+	 *
+	 * @param data
+	 *            待加密数据
+	 * @param key
+	 *            私钥
+	 * @return String 加密数据
+	 * @throws Exception
+	 */
+	public static String encryptByPrivateKeyToString(String data, byte[] key) throws Exception {
+		return encryptByPrivateKeyToString(data.getBytes(ENCODING), key);
+	}
+	
 	/**
 	 * 初始化密钥
 	 *

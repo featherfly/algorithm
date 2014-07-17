@@ -46,6 +46,20 @@ public abstract class DES extends Algorithm{
 		// 执行操作
 		return cipher.doFinal(data);
 	}
+	
+	/**
+	 * 解密
+	 *
+	 * @param data
+	 *            待解密数据，使用encryptToString加密的字符串
+	 * @param key
+	 *            密钥
+	 * @return byte[] 解密数据
+	 * @throws Exception
+	 */
+	public static byte[] decrypt(String data, byte[] key) throws Exception {
+		return decrypt(Base64.decode(data), key);
+	}
 	/**
 	 * 解密
 	 *
@@ -56,8 +70,21 @@ public abstract class DES extends Algorithm{
 	 * @return String 解密数据
 	 * @throws Exception
 	 */
-	public static String decrypt(String data, byte[] key) throws Exception {
-		return new String(decrypt(data.getBytes(ENCODING), key), ENCODING);
+	public static String decryptToString(byte[] data, byte[] key) throws Exception {
+		return new String(decrypt(data, key), ENCODING);
+	}
+	/**
+	 * 解密
+	 *
+	 * @param data
+	 *            待解密数据，使用encryptToString加密的字符串
+	 * @param key
+	 *            密钥
+	 * @return String 解密数据
+	 * @throws Exception
+	 */
+	public static String decryptToString(String data, byte[] key) throws Exception {		
+		return decryptToString(Base64.decode(data), key);
 	}
 
 	/**
@@ -80,6 +107,20 @@ public abstract class DES extends Algorithm{
 		// 执行操作
 		return cipher.doFinal(data);
 	}
+	
+	/**
+	 * 加密
+	 *
+	 * @param data
+	 *            待加密数据
+	 * @param key
+	 *            密钥
+	 * @return byte[] 加密数据
+	 * @throws Exception
+	 */
+	public static byte[] encrypt(String data, byte[] key) throws Exception {
+		return encrypt(data.getBytes(ENCODING), key);
+	}
 
 	/**
 	 * 加密
@@ -91,8 +132,21 @@ public abstract class DES extends Algorithm{
 	 * @return String 加密数据
 	 * @throws Exception
 	 */
-	public static String encrypt(String data, byte[] key) throws Exception {
-		return new String(encrypt(data.getBytes(ENCODING), key), ENCODING);
+	public static String encryptToString(byte[] data, byte[] key) throws Exception {		
+		return Base64.encodeToString(encrypt(data, key));
+	}
+	/**
+	 * 加密
+	 *
+	 * @param data
+	 *            待加密数据
+	 * @param key
+	 *            密钥
+	 * @return String 加密数据
+	 * @throws Exception
+	 */
+	public static String encryptToString(String data, byte[] key) throws Exception {
+		return encryptToString(data.getBytes(ENCODING), key);
 	}
 
 	/**
