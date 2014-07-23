@@ -5,7 +5,7 @@ apply plugin: 'signing'
 apply plugin: 'eclipse'
 
 group = "cn.featherfly"
-version = "1.0.1"
+version = "1.0.2"
 sourceCompatibility = 1.7  
 targetCompatibility = 1.7  
 
@@ -165,6 +165,35 @@ dependencies {
     testCompile (
     	'org.testng:testng:6.8.8'
     )
+}
+
+test {
+    // enable TestNG support (default is JUnit)
+    useTestNG()
+
+    // explicitly include or exclude tests
+    //include 'cn/featherfly/**'
+    //exclude 'cn/featherfly/security/oauth2/OAuth2ManagerTest.class'
+
+    // show standard out and standard error of the test JVM(s) on the console
+    testLogging.showStandardStreams = true
+
+    // set heap size for the test JVM(s)
+    minHeapSize = "128m"
+    maxHeapSize = "512m"
+
+    // set JVM arguments for the test JVM(s)
+    jvmArgs '-XX:MaxPermSize=256m'
+
+    // listen to events in the test execution lifecycle
+    beforeTest { descriptor ->
+        logger.lifecycle("Running test: " + descriptor)
+    }
+
+    // listen to standard out and standard error of the test JVM(s)
+    onOutput { descriptor, event ->
+        logger.lifecycle("Test: " + descriptor + " produced standard out/err: " + event.message)
+    }
 }
 
 jar {

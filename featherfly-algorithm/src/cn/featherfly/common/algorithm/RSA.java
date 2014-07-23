@@ -12,8 +12,6 @@ import java.security.spec.X509EncodedKeySpec;
 
 import javax.crypto.Cipher;
 
-import org.bouncycastle.crypto.params.KeyParameter;
-
 /**
  * RSA安全编码组件
  *
