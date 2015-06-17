@@ -1,7 +1,8 @@
 
 package cn.featherfly.common.algorithm;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import java.security.KeyPair;
 
@@ -17,6 +18,15 @@ import org.testng.annotations.Test;
  */
 @Test
 public class BasicTest {
+    
+ /*   public static void main(String[] args) throws Exception {
+        Class clazz=Class.forName("com.sun.org.apache.xerces.internal.impl.dv.util.Base64");  
+        Method mainMethod= clazz.getMethod("encode", byte[].class);  
+        mainMethod.setAccessible(true);  
+        Object retObj=mainMethod.invoke(null, new Object[]{"123".getBytes("UTF-8")});        
+        System.out.println(retObj);
+        System.out.println(new sun.misc.BASE64Encoder().encode("123".getBytes("UTF-8")));
+    }*/
 
 	@Test
 	public void testBase64() throws Exception {
