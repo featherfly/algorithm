@@ -207,9 +207,12 @@ test {
         logger.lifecycle("Test: " + descriptor + " produced standard out/err: " + event.message)
     }
 }
-
 jar {
     manifest {
-    	attributes buildBy: "zhong ji",provider: "gradle"
+	    attributes 'Build-Name': archivesBaseName
+	    attributes 'Build-By': "zhong ji"
+	    attributes 'Tool' : "gradle"
+	    attributes 'Build-Jdk' : ant.properties['java.runtime.version']
+	    attributes 'Bundle-License': 'http://www.apache.org/licenses/LICENSE-2.0'
     }
 }
