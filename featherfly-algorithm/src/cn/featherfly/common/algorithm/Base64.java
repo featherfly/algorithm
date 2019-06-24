@@ -3,7 +3,7 @@ package cn.featherfly.common.algorithm;
 /**
  * Base64组件
  *
- * @author 钟冀
+ * @author zhongj
  */
 public abstract class Base64 extends Algorithm{
 

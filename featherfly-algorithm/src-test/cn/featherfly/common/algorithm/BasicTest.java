@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
  * Base64Test
  * </p>
  * 
- * @author 钟冀
+ * @author zhongj
  */
 @Test
 public class BasicTest {

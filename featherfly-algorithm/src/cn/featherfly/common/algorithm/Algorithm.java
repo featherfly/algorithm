@@ -4,14 +4,12 @@ package cn.featherfly.common.algorithm;
 import java.security.Provider;
 import java.security.Security;
 
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-
 /**
  * <p>
  * 加解密算法
  * </p>
  *
- * @author 钟冀
+ * @author zhongj
  */
 public abstract class Algorithm {
 

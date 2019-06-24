@@ -15,7 +15,7 @@ import javax.crypto.Cipher;
 /**
  * RSA安全编码组件
  *
- * @author 钟冀
+ * @author zhongj
  */
 public abstract class RSA extends Algorithm{
 

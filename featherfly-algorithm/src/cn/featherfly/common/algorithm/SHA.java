@@ -8,7 +8,7 @@ import java.security.MessageDigest;
  * SHA安全编码组件
  * </p>
  * 
- * @author 钟冀
+ * @author zhongj
  */
 public abstract class SHA extends Algorithm {
 	/**
