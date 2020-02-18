@@ -12,7 +12,7 @@ import javax.crypto.spec.DESKeySpec;
 /**
  * DES安全编码组件
  *
- * @author 钟冀
+ * @author zhongj
  */
 public abstract class DES extends Algorithm{
 

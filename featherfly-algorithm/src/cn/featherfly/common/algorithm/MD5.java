@@ -5,7 +5,7 @@ import java.security.MessageDigest;
 /**
  * MD加密组件
  *
- * @author 钟冀
+ * @author zhongj
  */
 public abstract class MD5 extends Algorithm{
 

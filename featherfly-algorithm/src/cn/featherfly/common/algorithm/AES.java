@@ -10,7 +10,7 @@ import javax.crypto.spec.SecretKeySpec;
 /**
  * AES安全编码组件
  * 
- * @author 钟冀
+ * @author zhongj
  */
 public abstract class AES extends Algorithm{
 

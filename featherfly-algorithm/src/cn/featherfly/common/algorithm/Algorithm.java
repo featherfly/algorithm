@@ -1,16 +1,15 @@
 
 package cn.featherfly.common.algorithm;
 
+import java.security.Provider;
 import java.security.Security;
-
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 /**
  * <p>
  * 加解密算法
  * </p>
  *
- * @author 钟冀
+ * @author zhongj
  */
 public abstract class Algorithm {
 
@@ -18,7 +17,14 @@ public abstract class Algorithm {
 
 	static {
 		// 添加BouncyCastle实现
-		Security.addProvider(new BouncyCastleProvider());
+        try {
+            // 使用反射可以处理没有添加BouncyCastleProvider实现JAR包时，这里出错的问题
+            Provider provider = (Provider) Class.forName("org.bouncycastle.jce.provider.BouncyCastleProvider").newInstance();
+            Security.addProvider(provider);
+        } catch (InstantiationException | IllegalAccessException
+                | ClassNotFoundException e) {            
+        }
+//		Security.addProvider(new BouncyCastleProvider());
 	}
 
 	/**
